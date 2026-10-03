@@ -8,3 +8,41 @@ html,body,#root{margin:0;min-width:320px;min-height:100%;background:#08111f}butt
 @media(max-width:760px){.calendar-page,.detail-page{width:calc(100% - 12px);padding-top:10px}.toolbar{flex-wrap:wrap;gap:6px;margin-bottom:18px}.year-button,.language-button,.back-button{padding:7px 9px;font-size:12px}.calendar-header{gap:7px;margin-bottom:9px}.calendar-header h1{font-size:25px}.calendar-header p{font-size:10px}.month-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;align-items:start}.month-card{min-height:0;height:auto;padding:8px 5px 10px;border-radius:12px}.month-card-header{min-height:42px;margin-bottom:6px;align-items:flex-start}.month-card h2{font-size:17px;line-height:1.05}.month-card-header span{max-width:30px;font-size:8px;line-height:1.25;text-align:left}.weekday-row,.month-days{grid-template-columns:repeat(7,minmax(0,1fr));gap:0}.weekday-row{margin-bottom:4px;font-size:7px;line-height:1}.day,.empty-day{min-width:0;min-height:25px;font-size:9px;line-height:1}.day.holiday{width:23px;height:23px;min-height:23px;margin:1px auto;font-size:9px}.day.leave-day:not(.holiday),.day.included-day:not(.leave-day):not(.holiday),.day.today:not(.holiday):not(.leave-day):not(.included-day){width:22px;height:22px;min-height:22px;margin:1px auto;font-size:9px}.calendar-legend{gap:8px;margin:12px 0;font-size:9px}.plans-section{padding:12px}.detail-calendar{gap:3px}.detail-day{min-height:70px;padding:4px}.detail-weekday{padding:5px 2px;font-size:9px}.holiday-label{font-size:7px;padding:2px}}
 @media(max-width:380px){.calendar-page,.detail-page{width:calc(100% - 8px)}.toolbar{gap:3px}.year-button,.language-button,.back-button{padding:6px 7px;font-size:11px}.theme-toggle,.plans-toggle{gap:3px;font-size:10px}.switch,.plans-switch{width:34px;height:20px}.switch span,.plans-switch span{width:14px;height:14px}.month-grid{gap:4px}.month-card{padding:7px 3px 9px}.month-card h2{font-size:15px}.month-card-header span{font-size:7px}.weekday-row{font-size:6px}.day,.empty-day{min-height:23px;font-size:8px}.day.holiday{width:21px;height:21px;min-height:21px;font-size:8px}.day.leave-day:not(.holiday),.day.included-day:not(.leave-day):not(.holiday),.day.today:not(.holiday):not(.leave-day):not(.included-day){width:20px;height:20px;min-height:20px;font-size:8px}}
 @media (min-width:381px) and (max-width:1100px){.month-grid{align-items:stretch;grid-auto-rows:1fr}.month-card{height:100%;min-height:0}}
+/* 請假攻略：減少綠／金虛線標記與紅色假期圈重疊 */
+.day.leave-day:not(.holiday),
+.day.included-day:not(.leave-day):not(.holiday) {
+  position: relative;
+  width: 26px;
+  height: 26px;
+  min-height: 26px;
+  margin: 1px auto;
+  border-width: 2px;
+  z-index: 0;
+}
+
+/* 公眾假期維持最清晰、最頂層的紅色標記 */
+.day.holiday {
+  position: relative;
+  z-index: 1;
+}
+
+/* 已是紅圈的公眾假期，不再疊加第二層青綠色外框 */
+.day.included-day.holiday {
+  outline: 0;
+}
+
+/* 手機：請假提示再細一點，避免壓到相鄰日期 */
+@media (max-width: 760px) {
+  .day.leave-day:not(.holiday),
+  .day.included-day:not(.leave-day):not(.holiday) {
+    width: 20px;
+    height: 20px;
+    min-height: 20px;
+    margin: 2px auto;
+    font-size: 8px;
+  }
+
+  .day.included-day.holiday {
+    outline: 0;
+  }
+}
